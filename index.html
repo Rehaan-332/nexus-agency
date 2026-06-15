@@ -25,11 +25,9 @@
             margin: 0;
             display: flex; flex-direction: column; align-items: center; min-height: 100vh;
             line-height: 1.6;
-            /* Added padding to prevent sidebar overlap */
             padding-left: 60px;
         }
 
-        /* --- NEW: Sidebar --- */
         .sidebar {
             height: 100%;
             width: 60px;
@@ -54,6 +52,7 @@
             transition: 0.3s;
             border: 1px solid transparent;
             border-radius: 4px;
+            cursor: pointer;
         }
 
         .sidebar a:hover {
@@ -62,7 +61,100 @@
             box-shadow: 0 0 15px var(--accent);
         }
 
-        /* --- Access Entry --- */
+        /* Calculator Modal */
+        #calc-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+        }
+        #calc-overlay.open { display: flex; }
+
+        .calc-modal {
+            background: #0a0a0a;
+            border: 1px solid var(--border);
+            border-left: 6px solid var(--accent);
+            border-radius: 4px;
+            width: 480px;
+            max-width: 96vw;
+            padding: 24px;
+        }
+
+        .calc-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .calc-modal-title {
+            color: var(--accent);
+            font-family: monospace;
+            font-size: 11px;
+            letter-spacing: 3px;
+            font-weight: bold;
+        }
+
+        .calc-close-btn {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--accent);
+            cursor: pointer;
+            font-size: 15px;
+            border-radius: 3px;
+            padding: 2px 8px;
+            transition: 0.2s;
+        }
+        .calc-close-btn:hover { background: var(--accent); color: #fff; }
+
+        .calc-display {
+            background: #000;
+            border: 1px solid rgba(255,0,51,0.3);
+            border-radius: 3px;
+            padding: 12px 14px;
+            margin-bottom: 14px;
+            min-height: 70px;
+            text-align: right;
+            font-family: monospace;
+        }
+        .calc-sub { font-size: 13px; color: #666; min-height: 18px; word-break: break-all; }
+        .calc-main { font-size: 28px; color: #fff; word-break: break-all; }
+        .calc-mode { font-size: 10px; color: var(--accent); letter-spacing: 2px; margin-bottom: 4px; }
+
+        .calc-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px;
+        }
+
+        .cbtn {
+            background: #0f0f0f;
+            border: 1px solid rgba(255,0,51,0.2);
+            color: #e0e0e0;
+            font-size: 13px;
+            padding: 13px 4px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: monospace;
+            letter-spacing: 0.5px;
+        }
+        .cbtn:hover { background: rgba(255,0,51,0.15); border-color: #ff0033; color: #fff; }
+        .cbtn:active { transform: scale(0.95); }
+        .cbtn.op { color: #ff0033; font-weight: bold; border-color: rgba(255,0,51,0.35); }
+        .cbtn.sci { color: #ffaa00; font-size: 12px; border-color: rgba(255,170,0,0.3); }
+        .cbtn.sci:hover { background: rgba(255,170,0,0.12); border-color: #ffaa00; color: #ffd060; }
+        .cbtn.cc { color: #ff6680; }
+        .cbtn.eq { background: #ff0033; color: #fff; border-color: #ff0033; font-size: 16px; }
+        .cbtn.eq:hover { background: #cc0028; }
+        .cbtn.wide2 { grid-column: span 2; }
+        .cbtn.mem { color: #00ccff; font-size: 11px; border-color: rgba(0,204,255,0.25); }
+        .cbtn.mem:hover { background: rgba(0,204,255,0.1); border-color: #00ccff; color: #66ddff; }
+
+        /* Entry Screen */
         #entry { 
             position: fixed; inset: 0; background: #000; z-index: 2000; 
             display: flex; align-items: center; justify-content: center; 
@@ -86,37 +178,24 @@
         }
         .school-detected { animation: alert-flicker 0.4s infinite; }
 
-        /* --- Header --- */
         header {
             width: 100%; background: #000; padding: 70px 0; text-align: center;
             border-bottom: 3px solid var(--accent); position: relative;
         }
         #uptime { position: absolute; top: 15px; right: 25px; font-family: monospace; font-size: 12px; color: var(--accent); font-weight: bold; }
         
-        /* --- EXACT CIRCUIT LOGO (CSS/SVG) --- */
         .logo-box { 
-            width: 110px; 
-            height: 110px; 
-            margin: 0 auto 25px; 
-            background: #ffffff; 
-            border-radius: 50%; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
+            width: 110px; height: 110px; margin: 0 auto 25px; background: #ffffff; 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
         }
-
-        .circuit-svg {
-            width: 75px;
-            height: 75px;
-        }
+        .circuit-svg { width: 75px; height: 75px; }
 
         h1 { letter-spacing: 18px; text-transform: uppercase; font-size: 2.5rem; font-weight: 200; margin: 0; }
         h1 span { color: var(--accent); font-weight: 900; text-shadow: 0 0 20px var(--accent); }
 
         .container { max-width: 1000px; width: 90%; padding: 60px 0; flex-grow: 1; }
 
-        /* --- About Me --- */
         .about-card {
             background: var(--panel); border: 1px solid var(--border); border-radius: 8px;
             padding: 50px; margin-bottom: 60px; border-left: 8px solid var(--accent);
@@ -127,7 +206,6 @@
         .about-card h2 { font-size: 1.8rem; color: #fff; margin-top: 0; font-weight: 400; letter-spacing: 1px; }
         .about-card p { font-size: 1.2rem; line-height: 1.9; color: var(--text-secondary); }
 
-        /* --- Asset Grid --- */
         .section-label { font-size: 12px; letter-spacing: 8px; color: var(--accent); font-weight: 900; margin-bottom: 40px; text-transform: uppercase; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
         
@@ -138,10 +216,8 @@
             display: block; border-radius: 4px; position: relative; overflow: hidden;
         }
         .card:hover { 
-            border-color: var(--accent); 
-            background: rgba(255, 0, 51, 0.12); 
-            transform: translateY(-5px);
-            box-shadow: 0 0 25px rgba(255, 0, 51, 0.3);
+            border-color: var(--accent); background: rgba(255, 0, 51, 0.12); 
+            transform: translateY(-5px); box-shadow: 0 0 25px rgba(255, 0, 51, 0.3);
         }
         .card h3 { margin: 0 0 10px 0; font-size: 1.3rem; color: #fff; letter-spacing: 2px; }
         .card:hover h3 { color: var(--accent); text-shadow: 0 0 10px var(--accent); }
@@ -162,8 +238,89 @@
         <a href="https://docs.google.com/document/d/1qYgCNuBn-1Ra-a6t9VZyXDbSOnr9RdjF-AOHscLv27w/edit?usp=sharing" target="_blank" title="Operational Manifest">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
         </a>
+        <a onclick="openCalc()" title="Scientific Calculator">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="18"></line><path d="M16 10h.01M12 10h.01M8 10h.01M12 14h.01M8 14h.01M12 18h.01M8 18h.01"></path></svg>
+        </a>
     </div>
 
+    <!-- SCIENTIFIC CALCULATOR MODAL -->
+    <div id="calc-overlay" onclick="handleOverlayClick(event)">
+        <div class="calc-modal">
+            <div class="calc-modal-header">
+                <span class="calc-modal-title">[ NEXUS SCIENTIFIC CALCULATOR ]</span>
+                <button class="calc-close-btn" onclick="closeCalc()">✕ CLOSE</button>
+            </div>
+            <div class="calc-display">
+                <div class="calc-mode" id="calc-mode">DEG MODE</div>
+                <div class="calc-sub" id="calc-sub"></div>
+                <div class="calc-main" id="calc-main">0</div>
+            </div>
+            <div class="calc-grid">
+                <!-- Row 1: Scientific -->
+                <button class="cbtn sci" onclick="sciFunc('sin')">sin</button>
+                <button class="cbtn sci" onclick="sciFunc('cos')">cos</button>
+                <button class="cbtn sci" onclick="sciFunc('tan')">tan</button>
+                <button class="cbtn sci" onclick="sciFunc('log')">log</button>
+                <button class="cbtn sci" onclick="sciFunc('ln')">ln</button>
+
+                <!-- Row 2: Scientific -->
+                <button class="cbtn sci" onclick="sciFunc('asin')">sin⁻¹</button>
+                <button class="cbtn sci" onclick="sciFunc('acos')">cos⁻¹</button>
+                <button class="cbtn sci" onclick="sciFunc('atan')">tan⁻¹</button>
+                <button class="cbtn sci" onclick="sciFunc('sqrt')">√</button>
+                <button class="cbtn sci" onclick="sciFunc('cbrt')">∛</button>
+
+                <!-- Row 3: Scientific -->
+                <button class="cbtn sci" onclick="sciFunc('sq')">x²</button>
+                <button class="cbtn sci" onclick="sciFunc('cube')">x³</button>
+                <button class="cbtn sci" onclick="setOp('^')">xʸ</button>
+                <button class="cbtn sci" onclick="sciFunc('exp')">eˣ</button>
+                <button class="cbtn sci" onclick="sciFunc('inv')">1/x</button>
+
+                <!-- Row 4: Constants + Memory -->
+                <button class="cbtn sci" onclick="insertConst('pi')">π</button>
+                <button class="cbtn sci" onclick="insertConst('e')">e</button>
+                <button class="cbtn sci" onclick="toggleDeg()" id="deg-btn">DEG</button>
+                <button class="cbtn mem" onclick="memStore()">MS</button>
+                <button class="cbtn mem" onclick="memRecall()">MR</button>
+
+                <!-- Row 5: Clear + sign + % + abs + fact -->
+                <button class="cbtn cc" onclick="clearAll()">AC</button>
+                <button class="cbtn op" onclick="toggleSign()">+/-</button>
+                <button class="cbtn op" onclick="percent()">%</button>
+                <button class="cbtn sci" onclick="sciFunc('abs')">|x|</button>
+                <button class="cbtn sci" onclick="sciFunc('fact')">n!</button>
+
+                <!-- Row 6 -->
+                <button class="cbtn" onclick="digit('7')">7</button>
+                <button class="cbtn" onclick="digit('8')">8</button>
+                <button class="cbtn" onclick="digit('9')">9</button>
+                <button class="cbtn op" onclick="delChar()">⌫</button>
+                <button class="cbtn op" onclick="setOp('/')">÷</button>
+
+                <!-- Row 7 -->
+                <button class="cbtn" onclick="digit('4')">4</button>
+                <button class="cbtn" onclick="digit('5')">5</button>
+                <button class="cbtn" onclick="digit('6')">6</button>
+                <button class="cbtn op" onclick="setOp('*')">×</button>
+                <button class="cbtn op" onclick="setOp('-')">−</button>
+
+                <!-- Row 8 -->
+                <button class="cbtn" onclick="digit('1')">1</button>
+                <button class="cbtn" onclick="digit('2')">2</button>
+                <button class="cbtn" onclick="digit('3')">3</button>
+                <button class="cbtn op" onclick="setOp('+')">+</button>
+                <button class="cbtn eq" style="grid-row: span 2;" onclick="calculate()">=</button>
+
+                <!-- Row 9 -->
+                <button class="cbtn wide2" onclick="digit('0')">0</button>
+                <button class="cbtn" onclick="dot()">.</button>
+                <button class="cbtn op" onclick="setOp('mod')">mod</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ENTRY SCREEN -->
     <div id="entry">
         <div class="modal-content">
             <div class="warning-text" id="warning-msg">
@@ -176,30 +333,18 @@
 
     <header>
         <div id="uptime">SESSION_UPTIME: 00:00:00</div>
-        
         <div class="logo-box">
-            <!-- MATHEMATICAL RECREATION OF THE CIRCUIT IMAGE -->
             <svg class="circuit-svg" viewBox="0 0 100 100" xmlns="http://w3.org">
-                <!-- Inner Red Core -->
                 <path d="M50 35 L58 50 L50 65 L42 50 Z" fill="var(--nexus-red)" />
-                
-                <!-- Circuit Branch 1 (Top) -->
                 <path d="M50 35 Q50 15 35 15" fill="none" stroke="var(--nexus-red)" stroke-width="5" stroke-linecap="round"/>
                 <circle cx="35" cy="15" r="4" fill="var(--nexus-red)"/>
-                
-                <!-- Circuit Branch 2 (Bottom Left) -->
                 <path d="M42 50 Q25 55 25 75" fill="none" stroke="#000" stroke-width="5" stroke-linecap="round"/>
                 <circle cx="25" cy="75" r="4" fill="#000"/>
-                
-                <!-- Circuit Branch 3 (Bottom Right) -->
                 <path d="M58 50 Q75 55 75 75" fill="none" stroke="var(--nexus-red)" stroke-width="5" stroke-linecap="round"/>
                 <circle cx="75" cy="75" r="4" fill="var(--nexus-red)"/>
-
-                <!-- Outer Frame (Triangular Path) -->
                 <path d="M35 15 L15 15 L25 75 M75 75 L85 75 L35 15" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round"/>
             </svg>
         </div>
-        
         <h1>NEXUS <span>AGENCY</span></h1>
         <p>Fuel the fire</p>
     </header>
@@ -209,17 +354,15 @@
             <h2>Hi there!</h2>
             <p>My name is Rehaan Thakkar, and I founded The Nexus Agency with a single goal: to become the ultimate connection point between school and gaming.
 My journey into this industry started when I noticed a gap in studies. I realized that what the schools and students needed wasn't just another game link or ai but a balance between all the fun stuff with school.
-At Nexus Agency, I bring my personal commitment to be kind and punctual to every project we touch. I believe that every brand has a story worth telling, and I’ve built this agency to ensure those stories are heard loud and clear.
-When I’m not building the future of Nexus Agency, you can find me watching Formula 1 Or action movies and also books. I’m not just building an agency; I’m building a community. Let’s create something legendary together.Welcome to the Nexus Agency.
-
-</p>
-<p>important notice "on any of the links just click on the button and remove the nexus-games-sable.vercel.app/ as that is there to show the error code making it look like it is broken after that dont delete the url after you delete the portion of the url as thet is the game link."</p>
-<p>Rules on all websites:
-   No bookmarking any of the links in this website or any other nexus agency websites espically nexus games.
-   You cannot pass the working of nexus agency as your own.
-   You cant edit the code.
-   No loopholes allowed.
-   I am not responsible for any thing that hapens when using this site. </p>
+At Nexus Agency, I bring my personal commitment to be kind and punctual to every project we touch. I believe that every brand has a story worth telling, and I've built this agency to ensure those stories are heard loud and clear.
+When I'm not building the future of Nexus Agency, you can find me watching Formula 1 Or action movies and also books. I'm not just building an agency; I'm building a community. Let's create something legendary together. Welcome to the Nexus Agency.</p>
+            <p>Important notice: "on any of the links just click on the button and remove the nexus-games-sable.vercel.app/ as that is there to show the error code making it look like it is broken after that dont delete the url after you delete the portion of the url as that is the game link."</p>
+            <p>Rules on all websites:
+               No bookmarking any of the links in this website or any other nexus agency websites especially nexus games.
+               You cannot pass the working of nexus agency as your own.
+               You cant edit the code.
+               No loopholes allowed.
+               I am not responsible for any thing that happens when using this site.</p>
         </div>
 
         <div class="section-label">[ Strategic Assets ]</div>
@@ -234,7 +377,7 @@ When I’m not building the future of Nexus Agency, you can find me watching For
                 <h3>Nexus AI</h3>
                 <p>Centralized neural network.</p>
                 <p class="prototype-note">PROTOTYPE: INCOMPATIBLE WITH SCHOOL HARDWARE.</p>
-                <p><p>AI Released April 26</p></p>
+                <p>AI Released April 26</p>
             </a>
             <a href="https://oracle-ai-sage.vercel.app/" class="card" target="_blank">
                 <h3>Oracle AI</h3>
@@ -250,33 +393,39 @@ When I’m not building the future of Nexus Agency, you can find me watching For
             </a>
             <a href="https://nexus-games-phi.vercel.app/" class="card" target="_blank">
                 <h3>Nexus Games</h3>
-                <p>the most secure Gaming storage facility that nexus agency offers.</p>
+                <p>The most secure Gaming storage facility that nexus agency offers.</p>
                 <p>Storage hub Released May 28</p>
             </a>
-             <a href="https://www.google.com/search?q=formula+one+reaction+time&oq=formula+one+reaction+time&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQABiABDIICAIQABgWGB4yCggDEAAYChgWGB4yCAgEEAAYFhgeMggIBRAAGBYYHjIICAYQABgWGB4yCAgHEAAYFhgeMggICBAAGBYYHjIICAkQABgWGB7SAQg2NjcxajBqN6gCALACAA&sourceid=chrome&ie=UTF-8" class="card" target="_blank">
-                <h3>formula one reaction time tester</h3>
-                <p>A game that is all abouth the tenth of a second.</p>
-                <p>game releasing on TBD</p>
+            <a href="https://www.google.com/search?q=formula+one+reaction+time&oq=formula+one+reaction+time&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQABiABDIICAIQABgWGB4yCggDEAAYChgWGB4yCAgEEAAYFhgeMggIBRAAGBYYHjIICAYQABgWGB4yCAgHEAAYFhgeMggICBAAGBYYHjIICAkQABgWGB7SAQg2NjcxajBqN6gCALACAA&sourceid=chrome&ie=UTF-8" class="card" target="_blank">
+                <h3>Formula One Reaction Time Tester</h3>
+                <p>A game that is all about the tenth of a second.</p>
+                <p>Game releasing on TBD</p>
             </a>
             <a href="https://marvel-games.vercel.app/" class="card" target="_blank">
-                <h3>marvel Games folder</h3>
-                <p>"Choose your hero. Take command of any Avenger and deploy your ultimate abilities to crush the threat.".</p>
-                <p>folder released june 13</p>
+                <h3>Marvel Games Folder</h3>
+                <p>"Choose your hero. Take command of any Avenger and deploy your ultimate abilities to crush the threat."</p>
+                <p>Folder released June 13</p>
             </a>
-             <a href="https://docs.google.com/document/d/1qYgCNuBn-1Ra-a6t9VZyXDbSOnr9RdjF-AOHscLv27w/edit?tab=t.prs3ehu03v3w" class="card" target="_blank">
+            <a href="https://docs.google.com/document/d/1qYgCNuBn-1Ra-a6t9VZyXDbSOnr9RdjF-AOHscLv27w/edit?tab=t.prs3ehu03v3w" class="card" target="_blank">
                 <h3>NEXUS GAMES</h3>
-                <p>No No it is not like the one up at the top that is a storage for game links this is a game link itslef.</p>
-                <p>gamelink releasing TBD</p>
+                <p>No No it is not like the one up at the top — that is a storage for game links, this is a game link itself.</p>
+                <p>Gamelink releasing TBD</p>
+            </a>
+             <a href="https://calculator-eight-flax-55.vercel.app/" class="card" target="_blank">
+                <h3>Scientific Calculator</h3>
+                <p>Just a simple calculator</p>
+                <p>released June 15</p>
             </a>
         </div>
     </div>
 
-<footer>
-    Lead Architect: <b><a href="https://spider-man-brand-new-day-game.vercel.app/" target="_blank" style="color: inherit; text-decoration: none; cursor: default;">Rehaan Thakkar</a></b> <br>
-    Operational Personnel: <b>Zain Ali</b> • <b>Emily Roush</b> • <b>Ayushmaan Sharma</b> • <b>Jayden Wesly</b>
-</footer>
+    <footer>
+        Lead Architect: <b><a href="https://spider-man-brand-new-day-game.vercel.app/" target="_blank" style="color: inherit; text-decoration: none; cursor: default;">Rehaan Thakkar</a></b> <br>
+        Operational Personnel: <b>Zain Ali</b> • <b>Emily Roush</b> • <b>Ayushmaan Sharma</b> • <b>Jayden Wesly</b>
+    </footer>
 
     <script>
+        // --- Site Logic ---
         window.onload = function() {
             const isChromeOS = /\bCrOS\b/.test(navigator.userAgent);
             if (isChromeOS) {
@@ -286,7 +435,6 @@ When I’m not building the future of Nexus Agency, you can find me watching For
                 msg.innerHTML = "[UNAUTHORIZED HARDWARE DETECTED]<br>NEXUS PROTOCOLS RESTRICTED ON THIS DEVICE.";
                 btn.innerHTML = "PROCEED WITH CAUTION";
             }
-
             let seconds = 0;
             setInterval(() => {
                 seconds++;
@@ -304,6 +452,139 @@ When I’m not building the future of Nexus Agency, you can find me watching For
                 document.getElementById('about-me').classList.add('reveal');
             }, 800);
         }
+
+        // --- Calculator Modal ---
+        function openCalc() { document.getElementById('calc-overlay').classList.add('open'); }
+        function closeCalc() { document.getElementById('calc-overlay').classList.remove('open'); }
+        function handleOverlayClick(e) { if (e.target === document.getElementById('calc-overlay')) closeCalc(); }
+
+        // --- Scientific Calculator Logic ---
+        let _cur = '0', _prev = '', _op = null, _fresh = false;
+        let _deg = true, _mem = 0;
+
+        function _upd() { document.getElementById('calc-main').textContent = _cur; }
+
+        function digit(d) {
+            if (_fresh) { _cur = d; _fresh = false; }
+            else _cur = _cur === '0' ? d : _cur + d;
+            _upd();
+        }
+
+        function dot() {
+            if (_fresh) { _cur = '0.'; _fresh = false; }
+            else if (!_cur.includes('.')) _cur += '.';
+            _upd();
+        }
+
+        function delChar() {
+            if (_cur.length > 1) _cur = _cur.slice(0, -1);
+            else _cur = '0';
+            _upd();
+        }
+
+        function clearAll() {
+            _cur = '0'; _prev = ''; _op = null; _fresh = false;
+            document.getElementById('calc-sub').textContent = '';
+            _upd();
+        }
+
+        function toggleSign() { _cur = String(-parseFloat(_cur)); _upd(); }
+        function percent() { _cur = String(parseFloat(_cur) / 100); _upd(); }
+
+        function toggleDeg() {
+            _deg = !_deg;
+            document.getElementById('calc-mode').textContent = _deg ? 'DEG MODE' : 'RAD MODE';
+            document.getElementById('deg-btn').textContent = _deg ? 'DEG' : 'RAD';
+        }
+
+        function toRad(x) { return _deg ? x * Math.PI / 180 : x; }
+        function fromRad(x) { return _deg ? x * 180 / Math.PI : x; }
+
+        function factorial(n) {
+            n = Math.round(n);
+            if (n < 0) return NaN;
+            if (n === 0 || n === 1) return 1;
+            if (n > 170) return Infinity;
+            let r = 1;
+            for (let i = 2; i <= n; i++) r *= i;
+            return r;
+        }
+
+        function sciFunc(fn) {
+            let v = parseFloat(_cur), r;
+            const sub = document.getElementById('calc-sub');
+            switch(fn) {
+                case 'sin':  r = Math.sin(toRad(v)); sub.textContent = `sin(${v})`; break;
+                case 'cos':  r = Math.cos(toRad(v)); sub.textContent = `cos(${v})`; break;
+                case 'tan':  r = Math.tan(toRad(v)); sub.textContent = `tan(${v})`; break;
+                case 'asin': r = fromRad(Math.asin(v)); sub.textContent = `sin⁻¹(${v})`; break;
+                case 'acos': r = fromRad(Math.acos(v)); sub.textContent = `cos⁻¹(${v})`; break;
+                case 'atan': r = fromRad(Math.atan(v)); sub.textContent = `tan⁻¹(${v})`; break;
+                case 'log':  r = Math.log10(v); sub.textContent = `log(${v})`; break;
+                case 'ln':   r = Math.log(v); sub.textContent = `ln(${v})`; break;
+                case 'sqrt': r = Math.sqrt(v); sub.textContent = `√(${v})`; break;
+                case 'cbrt': r = Math.cbrt(v); sub.textContent = `∛(${v})`; break;
+                case 'sq':   r = v * v; sub.textContent = `(${v})²`; break;
+                case 'cube': r = v * v * v; sub.textContent = `(${v})³`; break;
+                case 'exp':  r = Math.exp(v); sub.textContent = `e^(${v})`; break;
+                case 'inv':  r = 1 / v; sub.textContent = `1/(${v})`; break;
+                case 'abs':  r = Math.abs(v); sub.textContent = `|${v}|`; break;
+                case 'fact': r = factorial(v); sub.textContent = `${v}!`; break;
+            }
+            _cur = String(parseFloat(r.toFixed(10)));
+            _fresh = true;
+            _upd();
+        }
+
+        function insertConst(c) {
+            if (c === 'pi') _cur = String(Math.PI);
+            if (c === 'e')  _cur = String(Math.E);
+            _fresh = false;
+            _upd();
+        }
+
+        function memStore() { _mem = parseFloat(_cur); document.getElementById('calc-sub').textContent = `M = ${_mem}`; }
+        function memRecall() { _cur = String(_mem); _fresh = false; _upd(); }
+
+        function setOp(o) {
+            if (_op && !_fresh) calculate();
+            _prev = _cur; _op = o; _fresh = true;
+            const sym = o === '*' ? '×' : o === '/' ? '÷' : o === '^' ? 'xʸ' : o;
+            document.getElementById('calc-sub').textContent = _prev + ' ' + sym;
+        }
+
+        function calculate() {
+            if (!_op || !_prev) return;
+            const a = parseFloat(_prev), b = parseFloat(_cur);
+            let r;
+            switch(_op) {
+                case '+':   r = a + b; break;
+                case '-':   r = a - b; break;
+                case '*':   r = a * b; break;
+                case '/':   r = b === 0 ? 'Error' : a / b; break;
+                case '^':   r = Math.pow(a, b); break;
+                case 'mod': r = a % b; break;
+            }
+            const sym = _op === '*' ? '×' : _op === '/' ? '÷' : _op === '^' ? '^' : _op;
+            document.getElementById('calc-sub').textContent = `${_prev} ${sym} ${_cur} =`;
+            _cur = String(typeof r === 'number' ? parseFloat(r.toFixed(10)) : r);
+            _op = null; _prev = ''; _fresh = true;
+            _upd();
+        }
+
+        // Keyboard support
+        document.addEventListener('keydown', function(e) {
+            if (!document.getElementById('calc-overlay').classList.contains('open')) return;
+            if (e.key >= '0' && e.key <= '9') digit(e.key);
+            else if (e.key === '.') dot();
+            else if (e.key === '+') setOp('+');
+            else if (e.key === '-') setOp('-');
+            else if (e.key === '*') setOp('*');
+            else if (e.key === '/') { e.preventDefault(); setOp('/'); }
+            else if (e.key === 'Enter' || e.key === '=') calculate();
+            else if (e.key === 'Backspace') delChar();
+            else if (e.key === 'Escape') closeCalc();
+        });
     </script>
 </body>
 </html>
